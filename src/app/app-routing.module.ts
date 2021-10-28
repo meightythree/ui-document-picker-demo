@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular";
 
-const routes: Routes = [{ path: "", redirectTo: "/items", pathMatch: "full" }];
+const routes: Routes = [];
 
 @NgModule({
   imports: [NativeScriptRouterModule.forRoot(routes)],

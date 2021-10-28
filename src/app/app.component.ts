@@ -31,7 +31,8 @@ export class AppComponent {
   private handleFileImport({ files, ios, android }: PickerData): void {
     console.log({ files, android });
     if (0 < files.length) {
-      const imports$ = files?.map((filePath) => this.importFileAsync(filePath));
+      // const imports$ = files.map((filePath) => this.importFileAsync(filePath));
+      const imports$ = files.map((filePath) => this.importFileSync(filePath));
 
       merge(...imports$).subscribe({
         next: (n) => console.log(n),
@@ -65,6 +66,25 @@ export class AppComponent {
             .catch((e) => catchError(e));
         })
         .catch((e) => catchError(e));
+    });
+  }
+
+  /**
+   * This method throws the error below.
+   * Error: java.io.FileNotFoundException: /storage/emulated/0/Download/Lyman Frank Baum - American Fairy Tales.epub: open failed: EACCES (Permission denied)
+   */
+  private importFileSync(filePath: string): Observable<any> {
+    const sourceFile = this.createSourceFile(filePath);
+    const destinationFile = this.createDestinationFile(filePath);
+    return new Observable((observer) => {
+      const handleError = (e) => {
+        observer.error(e);
+        observer.complete();
+      };
+      const binary = sourceFile.readSync((e) => handleError(e));
+      destinationFile.writeSync(binary, (e) => handleError(e));
+      observer.next("SUCCESS");
+      observer.complete();
     });
   }
 
