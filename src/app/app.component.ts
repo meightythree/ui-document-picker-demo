@@ -89,12 +89,15 @@ export class AppComponent {
   }
 
   private createSourceFile(filePath: string): File {
+    console.log({ sourceFile: filePath });
     return File.fromPath(filePath);
   }
 
   private createDestinationFile(filePath: string): File {
     const fileName = this.getFileNameFromFilePath(filePath);
-    return File.fromPath(path.join(this.currentAppFolder.path, fileName));
+    const destinationFile = path.join(this.currentAppFolder.path, fileName);
+    console.log({ destinationFile });
+    return File.fromPath(destinationFile);
   }
 
   private getFileNameFromFilePath(filePath: string): string {
