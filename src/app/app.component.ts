@@ -22,7 +22,7 @@ interface PickerData {
   templateUrl: "./app.component.html",
 })
 export class AppComponent {
-  readonly currentAppFolder = knownFolders.currentApp();
+  readonly documentsFolder = knownFolders.documents();
 
   onTap(): void {
     openFilePicker(FILE_PICKER_OPTIONS).then((d) => this.handleFileImport(d));
@@ -95,7 +95,7 @@ export class AppComponent {
 
   private createDestinationFile(filePath: string): File {
     const fileName = this.getFileNameFromFilePath(filePath);
-    const destinationFile = path.join(this.currentAppFolder.path, fileName);
+    const destinationFile = path.join(this.documentsFolder.path, fileName);
     console.log({ destinationFile });
     return File.fromPath(destinationFile);
   }
